@@ -1,0 +1,9 @@
+<div class="sidebar">
+    <ul>
+        {% for role in request.user.userprofile.roles.all %}
+            {% for menu in role.menus.all %}
+                <li><a href="{% url menu.url_name %}">{{ menu.name }}</a></li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+</div>

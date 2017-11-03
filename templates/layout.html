@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .sidebar {
+            position: absolute;
+            left: 0;
+            width: 200px;
+            top: 45px;
+            background: #eee;
+            bottom: 0;
+        }
+        
+        .sidebar ul li {
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+        }
+        
+        .content {
+            position: absolute;
+            left: 200px;
+            top: 45px;
+            padding: 10px;
+        }
+        
+        .cl {
+            clear: both;
+            overflow: hidden;
+        }
+
+        table tr td, th {
+            padding: 5px;
+            text-align: center;
+        }
+
+        thead > tr > th {
+            text-align: center;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    {% block css %}
+    {% endblock %}
+</head>
+<body>
+<div style="background: #000;padding: 10px;">
+    <h3 style="color: #fff;text-align: right;display: inline">欢迎您{{ username }}</h3> |
+    <a style="float: right;" href="/logout">注销</a>
+</div>
+<div class="sidebar-content">
+    {% block content %}
+    {% endblock %}
+    <div class="cl"></div>
+</div>
+<script src="/statics/jquery-1.11.1.min.js"></script>
+{% block javascript %}
+
+{% endblock %}
+</body>
+</html>

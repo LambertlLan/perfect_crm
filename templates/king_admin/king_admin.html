@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+{% load my_tag %}
+{% block content %}
+    {% include 'side-bar.html' %}
+    <div class="content">
+        <div class="container">
+            {{ table_list }}
+            {% for app_name,app_tables in table_list.items %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{ app_name }}</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                            <tr>
+                                <th>{{ app_name }}</th>
+                                <th>增加</th>
+                                <th>修改</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for table_name,admin in app_tables.items %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url "table_objs" app_name table_name %}">{% render_table_name admin %}</a>
+                                    </td>
+                                    <td>add</td>
+                                    <td>change</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

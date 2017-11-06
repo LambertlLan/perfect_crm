@@ -5,11 +5,13 @@ from crm import models
 
 class BaseAdmin(object):
     list_display = ()
-    list_filter = ()
+    list_filter = []
 
 
 class CustomerAdmin(BaseAdmin):
-    list_display = ('id', 'qq', 'source', 'consultant', 'date',)
+    list_display = ('id', 'qq', 'source', 'consultant','consult_course', 'date',)
+    list_filters = ['source', 'consultant', 'consult_course']
+    list_per_page = 1
 
 
 enable_class = {}

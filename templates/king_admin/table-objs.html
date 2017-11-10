@@ -39,16 +39,7 @@
                                 <div class="col-lg-4">
                                     <div class="input-group" style="margin-top: 22px;">
                                         <input type="text" class="form-control" name="q" value="{{ request.GET.q }}"
-                                               placeholder="search by
-
-
-
-
-
-
-
-
-                                                       {% for field in admin_class.search_fields %}{{ field }},{% endfor %}">
+                                               placeholder="search by {% for field in admin_class.search_fields %}{{ field }},{% endfor %}">
                                         <span class="input-group-btn">
                                             <button class="btn btn-default btn-primary" type="button">搜索</button>
                                           </span>

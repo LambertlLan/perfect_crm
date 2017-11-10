@@ -11,15 +11,17 @@
                 </div>
                 <div class="panel-body">
                     <form method="GET">
-                        {{ filter_conditions }}
                         <div class="form-group">
                             <div class="row">
+                                {# 循环获取需要显示的字段#}
                                 {% for condition in admin_class.list_filters %}
+                                    {# 获取queryset#}
                                     {% get_field_obj condition admin_class as field_obj %}
+                                    {# 获取选中的值 #}
                                     {% get_filter_conditions_condition filter_conditions condition as condition_val %}
                                     <div class="col-lg-2">
                                         <label class="control-label" for="inputSuccess1">{{ condition }}</label>
-                                        <select class="form-control" name="{{ condition }}">
+                                        <select class="form-control" name="{{ condition|judge_date }}">
                                             {% for val in field_obj %}
                                                 <option value="{{ val.0 }}"
                                                         {% if condition_val == val.0 %}
@@ -33,6 +35,25 @@
                                 <div class="col-lg-2">
                                     <button style="margin-top: 22px;" type="submit" class="btn btn-primary">检索</button>
                                 </div>
+                                <!-- 搜索 -->
+                                <div class="col-lg-4">
+                                    <div class="input-group" style="margin-top: 22px;">
+                                        <input type="text" class="form-control" name="q" value="{{ request.GET.q }}"
+                                               placeholder="search by
+
+
+
+
+
+
+
+
+                                                       {% for field in admin_class.search_fields %}{{ field }},{% endfor %}">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default btn-primary" type="button">搜索</button>
+                                          </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -40,7 +61,9 @@
                         <thead>
                         <tr>
                             {% for title in admin_class.list_display %}
-                                <th>{{ title }}</th>
+                                <th>
+                                    <a href="{% order_by_filter title request.GET.o request.GET.urlencode %}">{{ title }}</a>
+                                </th>
                             {% endfor %}
                         </tr>
                         </thead>
@@ -57,14 +80,17 @@
                         {% endfor %}
                         </tbody>
                     </table>
+                    <p>总共{{ query_sets.paginator.count }}条</p>
                 </div>
             </div>
-            <div class="row">
+            <div>
                 <nav>
                     <ul class="pagination">
                         {% if query_sets.has_previous %}
-                            <li><a href="?page={{ query_sets.number|add:-1 }}" aria-label="Previous"><span
-                                    aria-hidden="true">上一页</span></a></li>
+                            <li>
+                                <a href="{% get_current_page_str request.GET.urlencode query_sets.number query_sets.number|add:-1 %}"
+                                   aria-label="Previous"><span
+                                        aria-hidden="true">上一页</span></a></li>
                         {% endif %}
                         {% for page in query_sets.paginator.page_range %}
 
@@ -77,8 +103,11 @@
                                         class="sr-only">(current)</span></a></li>
                         {% endfor %}
                         {% if query_sets.has_next %}
-                            <li><a href="?page={{ query_sets.number|add:1 }}" aria-label="Previous"><span
-                                    aria-hidden="true">下一页</span></a></li>
+                            <li>
+                                <a href="
+                                        {% get_current_page_str request.GET.urlencode query_sets.number query_sets.number|add:1 %}"
+                                   aria-label="Previous"><span
+                                        aria-hidden="true">下一页</span></a></li>
                         {% endif %}
                     </ul>
                 </nav>

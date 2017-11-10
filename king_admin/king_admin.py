@@ -9,9 +9,10 @@ class BaseAdmin(object):
 
 
 class CustomerAdmin(BaseAdmin):
-    list_display = ('id', 'qq', 'source', 'consultant','consult_course', 'date',)
-    list_filters = ['source', 'consultant', 'consult_course']
-    list_per_page = 1
+    list_display = ('id', 'name', 'qq', 'source', 'consultant', 'consult_course', 'date',)
+    list_filters = ['source', 'consult_course', 'date']
+    search_fields = ['name', 'qq', 'consultant__name', 'consult_course__name']
+    list_per_page = 5
 
 
 enable_class = {}

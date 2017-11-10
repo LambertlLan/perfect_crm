@@ -15,6 +15,8 @@ class Display_table_objs(views.View):
         print(app_name, table_name)
         admin_class = king_admin.enable_class[app_name][table_name]
         object_list, filter_condtions = utils.table_filter(request, admin_class)
+        object_list = utils.search_filter(request, admin_class, object_list)
+        object_list = utils.table_order_by(request, object_list)
         paginator = Paginator(object_list, admin_class.list_per_page)  # Show 25 contacts per page
         page = request.GET.get('page')
         try:

@@ -9,9 +9,14 @@ class BaseAdmin(object):
 
 
 class CustomerAdmin(BaseAdmin):
-    list_display = ('id', 'name', 'qq', 'source', 'consultant', 'consult_course', 'date',)
-    list_filters = ['source', 'consult_course', 'date']
+    list_display = ('id', 'name', 'qq', 'source', 'consultant', 'consult_course', 'date', 'status')
+    list_filters = ['source', 'date', 'status']
     search_fields = ['name', 'qq', 'consultant__name', 'consult_course__name']
+    list_per_page = 5
+
+
+class RoleAdmin(BaseAdmin):
+    list_display = ('id', 'name', 'menus')
     list_per_page = 5
 
 
@@ -26,3 +31,4 @@ def register(model_class, admin_class):
 
 
 register(models.Customer, CustomerAdmin)
+register(models.Role, RoleAdmin)

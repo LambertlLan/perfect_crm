@@ -22,6 +22,10 @@ class Customer(models.Model):
     referral_from = models.CharField(verbose_name='转介绍人QQ', max_length=64, blank=True, null=True)
     consult_course = models.ForeignKey("Course", verbose_name="咨询课程")
     content = models.TextField(verbose_name="咨询详情")
+    status_choices = ((0, '已报名'),
+                      (1, '未报名'),
+                      )
+    status = models.SmallIntegerField(choices=status_choices, default=1)
     tags = models.ManyToManyField("Tag", blank=True, null=True)
     consultant = models.ForeignKey("UserProfile", verbose_name="经手人")
     memo = models.TextField(blank=True, null=True, verbose_name="备注")

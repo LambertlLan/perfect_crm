@@ -13,38 +13,43 @@
                     <form method="GET">
                         <div class="form-group">
                             <div class="row">
-                                {# 循环获取需要显示的字段#}
-                                {% for condition in admin_class.list_filters %}
-                                    {# 获取queryset#}
-                                    {% get_field_obj condition admin_class as field_obj %}
-                                    {# 获取选中的值 #}
-                                    {% get_filter_conditions_condition filter_conditions condition as condition_val %}
+                                {% if admin_class.list_filters %}
+                                    {# 循环获取需要显示的字段#}
+                                    {% for condition in admin_class.list_filters %}
+                                        {# 获取queryset#}
+                                        {% get_field_obj condition admin_class as field_obj %}
+                                        {# 获取选中的值 #}
+                                        {% get_filter_conditions_condition filter_conditions condition as condition_val %}
+                                        <div class="col-lg-2">
+                                            <label class="control-label" for="inputSuccess1">{{ condition }}</label>
+                                            <select class="form-control" name="{{ condition|judge_date }}">
+                                                {% for val in field_obj %}
+                                                    <option value="{{ val.0 }}"
+                                                            {% if condition_val == val.0 %}
+                                                            selected
+                                                            {% endif %}
+                                                    >{{ val.1 }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    {% endfor %}
                                     <div class="col-lg-2">
-                                        <label class="control-label" for="inputSuccess1">{{ condition }}</label>
-                                        <select class="form-control" name="{{ condition|judge_date }}">
-                                            {% for val in field_obj %}
-                                                <option value="{{ val.0 }}"
-                                                        {% if condition_val == val.0 %}
-                                                        selected
-                                                        {% endif %}
-                                                >{{ val.1 }}</option>
-                                            {% endfor %}
-                                        </select>
+                                        <button style="margin-top: 22px;" type="submit" class="btn btn-primary">检索
+                                        </button>
                                     </div>
-                                {% endfor %}
-                                <div class="col-lg-2">
-                                    <button style="margin-top: 22px;" type="submit" class="btn btn-primary">检索</button>
-                                </div>
-                                <!-- 搜索 -->
-                                <div class="col-lg-4">
-                                    <div class="input-group" style="margin-top: 22px;">
-                                        <input type="text" class="form-control" name="q" value="{{ request.GET.q }}"
-                                               placeholder="search by {% for field in admin_class.search_fields %}{{ field }},{% endfor %}">
-                                        <span class="input-group-btn">
+                                {% endif %}
+                                {% if admin_class.search_fields %}
+                                    <!-- 搜索 -->
+                                    <div class="col-lg-4">
+                                        <div class="input-group" style="margin-top: 22px;">
+                                            <input type="text" class="form-control" name="q" value="{{ request.GET.q }}"
+                                                   placeholder="search by {% for field in admin_class.search_fields %}{{ field }},{% endfor %}">
+                                            <span class="input-group-btn">
                                             <button class="btn btn-default btn-primary" type="button">搜索</button>
                                           </span>
+                                        </div>
                                     </div>
-                                </div>
+                                {% endif %}
                             </div>
                         </div>
                     </form>
@@ -64,7 +69,12 @@
                             <tr>
                                 {% for title in admin_class.list_display %}
                                     <td>
-                                        {% build_table_row item title %}
+                                        {% if forloop.first %}
+                                            <a href="
+                                                    {{ request.path }}{% build_table_row item title %}/change/">{% build_table_row item title %}</a>
+                                        {% else %}
+                                            {% build_table_row item title %}
+                                        {% endif %}
                                     </td>
                                 {% endfor %}
                             </tr>
@@ -84,7 +94,7 @@
                                         aria-hidden="true">上一页</span></a></li>
                         {% endif %}
                         {% for page in query_sets.paginator.page_range %}
-
+                            
                             <li class="
                                 {% if query_sets.number == page %}
                                     active

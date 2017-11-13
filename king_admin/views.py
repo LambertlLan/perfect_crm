@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django import views
 from king_admin import king_admin, utils
+from django.forms.models import model_to_dict
 
 
 # Create your views here.
@@ -29,3 +30,10 @@ class Display_table_objs(views.View):
             query_sets = paginator.page(paginator.num_pages)
         return render(request, 'king_admin/table-objs.html',
                       {'admin_class': admin_class, 'filter_conditions': filter_condtions, 'query_sets': query_sets})
+
+
+class Display_table_objs_change(views.View):
+    def get(self, request, app_name, table_name, obj_id):
+        admin_class = king_admin.enable_class[app_name][table_name]
+        query_sets = admin_class.model.objects.filter(id=obj_id)[0]
+        return render(request, 'king_admin/table-objs-change.html', {'query_set': model_to_dict(query_sets)})

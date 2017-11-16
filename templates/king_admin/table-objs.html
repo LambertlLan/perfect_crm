@@ -7,7 +7,7 @@
             {#            {{ admin_class.model.objects.all }}#}
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title"></h3>
+                    <h3 class="panel-title">{% render_table_name admin_class %}</h3>
                 </div>
                 <div class="panel-body">
                     <form method="GET">
@@ -43,7 +43,8 @@
                                     <div class="col-lg-4">
                                         <div class="input-group" style="margin-top: 22px;">
                                             <input type="text" class="form-control" name="q" value="{{ request.GET.q }}"
-                                                   placeholder="search by {% for field in admin_class.search_fields %}{{ field }},{% endfor %}">
+                                                   placeholder="search by
+                                                           {% for field in admin_class.search_fields %}{{ field }},{% endfor %}">
                                             <span class="input-group-btn">
                                             <button class="btn btn-default btn-primary" type="button">搜索</button>
                                           </span>
@@ -71,6 +72,7 @@
                                     <td>
                                         {% if forloop.first %}
                                             <a href="
+
                                                     {{ request.path }}{% build_table_row item title %}/change/">{% build_table_row item title %}</a>
                                         {% else %}
                                             {% build_table_row item title %}

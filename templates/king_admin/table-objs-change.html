@@ -4,9 +4,8 @@
     {% include 'side-bar.html' %}
     <div class="content">
         <div class="container">
-            {% for key,value in query_set.items %}
-                <h1>{{ key }}:{{ value }}</h1>
-            {% endfor %}
+            {{ admin_class }}
+            {{ model_form }}
             {% for app_name,app_tables in table_list.items %}
                 <div class="panel panel-default">
                     <div class="panel-heading">
